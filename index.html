@@ -18,8 +18,8 @@
     <link href="/assets/css/custom.css" rel="stylesheet" />
     <title>OpenWeather</title>
   </head>
-  <body class="">
-    <div class="container-fluid  mt-5">
+  <body class="p-1">
+    <div class="container-fluid mt-5">
       <div class="row">
         <div class="col-12">
           <div class="container-fluid">
@@ -36,22 +36,24 @@
       </div>
     </div>
 
-       <!-- <div class="container-fluid bg-primary w-100 mt-5 rounded">
-        <div class="row">
-          <div class="col col-lg-6">
-            <button type="button" class="btn btn-primary">
-              <i class="bi bi-search fs-2"></i>
-            </button>
-          </div>
+    <div class="container-fluid rounded bg-primary container-sm">
+      <div class="row">
+        <div class="col-12 col-lg-6  modal-dialog-centered" id="cajaInputCiudad">
+            <input type="text" class="form-control" id="inputCiudad" />
+        </div>
+        <div class="col col-lg-6" id="cajaBtnBuscar">
+          <button type="button" id="btnBuscar" class="btn btn-primary w-100">
+            <i class="bi bi-search fs-2"></i>
+          </button>
+        </div>
 
-          <div class="col col-lg-6">
-            <button type="button" class="btn btn-primary">
-              <i class="bi bi-cursor-fill fs-2"></i>
-            </button>
-          </div>
+        <div class="col col-lg-6" id="cajaBtnGps">
+          <button type="button" id="btnGps" class="btn btn-primary w-100">
+            <i class="bi bi-cursor-fill fs-2"></i>
+          </button>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -68,6 +70,7 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <script src="./asset/js/weather.js"></script>
+
+    <script src="./assets/js/weather.js"></script>
   </body>
 </html>
