@@ -32,7 +32,9 @@ jQuery(document).ready(function () {
         cajaActual.show();
       } else {
         alert("RELLENA LA CIUDAD ANTES DE HACER UNA BUSQUEDA");
+       
       }
+
     } else {
       contenedorGps.removeClass("col-lg-6");
       contenedorBuscar.removeClass("col-lg-6");
@@ -46,6 +48,8 @@ jQuery(document).ready(function () {
   });
 
   function anadirDatosActualesAWeb(datos) {
+    $("#loadingGif1").hide();
+
     $("#tituloActual").empty();
     $("#tituloActual").append(
       "<h4>TIEMPO EN " + inputCiudad.val().toUpperCase() + "</h4>"
@@ -55,9 +59,7 @@ jQuery(document).ready(function () {
     //AÑADIR ICONO DEPENDIENDO DEL TIEMPO
 
     $("#temperaturaActual").empty();
-    $("#temperaturaActual").append(
-      $("<h4>" + Math.round(temperatura + "°C</h4>"))
-    );
+    $("#temperaturaActual").append($("<h4>" + temperatura + "°C</h4>"));
   }
 
   function consultaActual() {
@@ -80,12 +82,12 @@ jQuery(document).ready(function () {
       // la respuesta es pasada como argumento a la función
       success: function (json) {
         if (json.length == 0) {
+          cajaActual.hide();
           alert("No se ha encontrado la ciudad " + inputCiudad.val());
         } else {
           json.forEach((ciudad) => {
-            lat = ciudad["lon"];
-            lon = ciudad["lat"];
-
+            lat = ciudad["lat"];
+            lon = ciudad["lon"];
             var url2 =
               "https://api.openweathermap.org/data/2.5/weather?lat=" +
               lat +

@@ -3,11 +3,21 @@
 // Include any default variable overrides here (though functions won't be available)
 
 //COLORS
-$primary:#1ED9AA;
+$primary: #1ed9aa;
 //MARGINS
-$spacer:4rem; 
+$spacer: 4rem;
 
 @import "../bootstrap/scss/bootstrap.scss";
 
-
 // Then add additional custom code here
+
+body {
+  background: linear-gradient(
+    0deg,
+    rgba(13, 236, 245, 1) 0%,
+    rgba(34, 68, 255, 1) 100%
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
