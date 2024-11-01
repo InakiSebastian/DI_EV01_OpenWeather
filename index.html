@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="inakicabrerao@gmail.com" />
-   
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
@@ -31,22 +31,32 @@
       </div>
     </div>
 
-    <div class="container-fluid  rounded bg-primary container-sm ">
+    <div class="container-fluid rounded bg-primary container-sm">
       <div class="row">
-        <div class="col-12   col-lg-6  modal-dialog-centered" id="cajaInputCiudad">
-            <input type="text" class="form-control" id="inputCiudad" />
+        <div class="col-1 p-0 col-lg-1" id="cajaBtnClose">
+          <button type="button" id="btnClose" class="btn btn-primary w-100">
+            <i class=" mt-0 bi bi-x fs-2"></i>
+          </button>
+        </div>
+        <div
+          class="col-11 mt-1 mt-lg-0 col-lg-7 modal-dialog-centered"
+          id="cajaInputCiudad"
+        >
+          <input type="text" class="form-control" id="inputCiudad" />
         </div>
         <div class="col col-lg-6" id="cajaBtnBuscar">
           <button type="button" id="btnBuscar" class="btn btn-primary w-100">
             <i class="bi bi-search fs-2"></i>
           </button>
         </div>
+       
 
         <div class="col col-lg-6" id="cajaBtnGps">
           <button type="button" id="btnGps" class="btn btn-primary w-100">
             <i class="bi bi-cursor-fill fs-2"></i>
           </button>
         </div>
+        
       </div>
     </div>
 
