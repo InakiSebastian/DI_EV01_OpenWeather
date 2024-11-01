@@ -65,7 +65,7 @@ jQuery(document).ready(function () {
   function consultaActual() {
     var datosTiempoActual = [];
     var url1 =
-      "http://api.openweathermap.org/geo/1.0/direct?q=" +
+      "https://api.openweathermap.org/geo/1.0/direct?q=" +
       inputCiudad.val() +
       "&limit=1&appid=" +
       API_KEY;
