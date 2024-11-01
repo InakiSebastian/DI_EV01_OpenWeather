@@ -54,16 +54,19 @@ jQuery(document).ready(function () {
     $("#tituloActual").append(
       "<h4>TIEMPO EN " + inputCiudad.val().toUpperCase() + "</h4>"
     );
-    var temperatura = Math.round(datos[0]["tiempo"] - 273.15);
+    console.log(datos);
+    var temperatura = Math.round(datos["tiempo"] - 273.15);
+    var iconoUrl = "https://openweathermap.org/img/wn/"+ datos["icon"]+"@2x.png"
 
-    //AÑADIR ICONO DEPENDIENDO DEL TIEMPO
+    $("#iconoActual").empty()
+    $("#iconoActual").append($("<img  src='"+ iconoUrl +"'></img>"));
 
     $("#temperaturaActual").empty();
     $("#temperaturaActual").append($("<h4>" + temperatura + "°C</h4>"));
   }
 
   function consultaActual() {
-    var datosTiempoActual = [];
+    var datosTiempoActual = {};
     var url1 =
       "https://api.openweathermap.org/geo/1.0/direct?q=" +
       inputCiudad.val() +
@@ -106,7 +109,9 @@ jQuery(document).ready(function () {
               // código a ejecutar si la petición es satisfactoria;
               // la respuesta es pasada como argumento a la función
               success: function (json2) {
-                datosTiempoActual.push({ tiempo: json2.main.temp });
+
+                datosTiempoActual["icon"] = json2.weather[0].icon;
+                datosTiempoActual["tiempo"]= json2.main.temp ;
                 anadirDatosActualesAWeb(datosTiempoActual);
               },
 
