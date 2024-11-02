@@ -42,6 +42,7 @@ jQuery(document).ready(function () {
         contenedorBuscar.removeClass("col-lg-6");
         contenedorGps.addClass("col-lg-2");
         contenedorBuscar.addClass("col-lg-2");
+        cajaInputCiudad.show();
         cajaBtnClose.show();
   
       });
