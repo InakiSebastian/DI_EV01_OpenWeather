@@ -44,49 +44,16 @@ jQuery(document).ready(function () {
         contenedorBuscar.addClass("col-lg-2");
         cajaInputCiudad.show();
         cajaBtnClose.show();
-  
       });
     } else {
       alert("HAY PROBLEMAS CON LA GEOLOCALIZACIÓN. INTENTALO MAS TARDE");
     }
   });
 
-  function añadirTituloNombre(name){
-    $("#tituloActual").append("<h4>TIEMPO EN " + name + "</h4>");
 
-  }
-
-  function obtenerNombreCiudad() {
-    var url2 =
-      "https://api.openweathermap.org/geo/1.0/reverse?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&appid=" +
-      API_KEY;
-
-    $.ajax({
-      // la URL para la petición
-      url: url2,
-
-      type: "GET",
-      // el tipo de información que se espera de respuesta
-      dataType: "json",
-      // código a ejecutar si la petición es satisfactoria;
-      // la respuesta es pasada como argumento a la función
-      success: function (json3) {
-        añadirTituloNombre(json3[0]["name"].toUpperCase());
-      },
-
-      // código a ejecutar si la petición falla;
-      error: function (xhr, status) {
-        alert("Disculpe, existió un problema");
-      },
-    });
-  }
+  
 
   botonBuscar.on("click", function () {
-
     if (movimientoOBusqueda) {
       if (inputCiudad.val() != "") {
         consultaActual();
@@ -106,19 +73,16 @@ jQuery(document).ready(function () {
     }
   });
 
-  
-
   function anadirDatosActualesAWeb(datos) {
     $("#loadingGif1").hide();
     $("#tituloActual").empty();
-    if (inputCiudad.val() == "") {
-      
-      obtenerNombreCiudad();
-    } else {
-      $("#tituloActual").append("<h4>TIEMPO EN " + inputCiudad.val().toUpperCase() + "</h4>");
+    ciudad = datos["nombre"];
 
-    }
-    var temperatura = Math.round(datos["tiempo"] - 273.15);
+    $("#tituloActual").append(
+      "<h4>TIEMPO EN " + ciudad.toUpperCase() + "</h4>"
+    );
+
+    var temperatura = Math.round(datos["tiempo"]);
     var iconoUrl =
       "https://openweathermap.org/img/wn/" + datos["icon"] + "@2x.png";
 
@@ -136,7 +100,7 @@ jQuery(document).ready(function () {
       "&lon=" +
       lon +
       "&appid=" +
-      API_KEY;
+      API_KEY+"&units=metric";
 
     $.ajax({
       // la URL para la petición
@@ -148,6 +112,7 @@ jQuery(document).ready(function () {
       // código a ejecutar si la petición es satisfactoria;
       // la respuesta es pasada como argumento a la función
       success: function (json2) {
+        datosTiempoActual["nombre"] = json2.name;
         datosTiempoActual["icon"] = json2.weather[0].icon;
         datosTiempoActual["tiempo"] = json2.main.temp;
         anadirDatosActualesAWeb(datosTiempoActual);
