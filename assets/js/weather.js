@@ -1,22 +1,53 @@
 jQuery(document).ready(function () {
+  //CONTENEDORES
   var contenedorGps = $("#cajaBtnGps");
   var contenedorBuscar = $("#cajaBtnBuscar");
+  var contenedorInputCiudad = $("#cajaInputCiudad");
+  var contenedorBtnClose = $("#cajaBtnClose");
+  var contenedorTiempoActual = $("#actual");
+  var contenedorBtnPrevision = $("#cajaBtnPrevision");
+  var contenedorPrevision = $("#cajaPrevision");
+  
+  //CONTENIDO
+
+
+  //BOTONES
   var botonGps = $("#btnGps");
   var botonBuscar = $("#btnBuscar");
   var botonCerrar = $("#btnClose");
-  var cajaInputCiudad = $("#cajaInputCiudad");
+  var botonPrevision = $("#btnPrevision");
+
+  //INPUT
   var inputCiudad = $("#inputCiudad");
-  var cajaBtnClose = $("#cajaBtnClose");
-  var cajaActual = $("#actual");
+
+
+  //CONSTANTES
   const API_KEY = "32703d44a00c89012175a9bb40b70da7";
+
+
+  //VARIABLES
   var datosTiempoActual = {};
-  $("#prevision").hide();
   var movimientoOBusqueda = false;
-  cajaInputCiudad.hide();
-  cajaBtnClose.hide();
-  cajaActual.hide();
   var lat;
   var lon;
+
+  //OCULTAR ELEMENTOS AL INICIAR WEB
+  contenedorPrevision.hide();
+  contenedorBtnPrevision.hide();
+  contenedorInputCiudad.hide();
+  contenedorBtnClose.hide();
+  contenedorTiempoActual.hide();
+  
+  //FUNCIONES ON CLICK
+
+  botonPrevision.on("click", function () {
+    contenedorPrevision.show();
+    contenedorBtnPrevision.hide();
+    contenedorTiempoActual.hide();
+    prevision();
+  });
+
+
 
   botonCerrar.on("click", function () {
     inputCiudad.val("");
@@ -24,45 +55,46 @@ jQuery(document).ready(function () {
     contenedorBuscar.addClass("col-lg-6");
     contenedorGps.removeClass("col-lg-2");
     contenedorBuscar.removeClass("col-lg-2");
-    cajaBtnClose.hide();
-    cajaInputCiudad.hide();
+    contenedorBtnClose.hide();
+    contenedorInputCiudad.hide();
     movimientoOBusqueda = false;
-    cajaActual.hide();
-    $("#prevision").hide();
+    contenedorTiempoActual.hide();
+    contenedorBtnPrevision.hide();
+    contenedorPrevision.hide();
+
 
   });
 
-  $("#btnGps").on("click", function () {
+  botonGps.on("click", function () {
     inputCiudad.val("");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         lat = position.coords.latitude;
         lon = position.coords.longitude;
         busquedaPorCoordenadas();
-        cajaActual.show();
-        $("#prevision").show();
+        contenedorTiempoActual.show();
+        contenedorBtnPrevision.show();
 
         contenedorGps.removeClass("col-lg-6");
         contenedorBuscar.removeClass("col-lg-6");
         contenedorGps.addClass("col-lg-2");
         contenedorBuscar.addClass("col-lg-2");
-        cajaInputCiudad.show();
-        cajaBtnClose.show();
+        contenedorInputCiudad.show();
+        contenedorBtnClose.show();
+        contenedorPrevision.hide();
+
       });
     } else {
       alert("HAY PROBLEMAS CON LA GEOLOCALIZACIÓN. INTENTALO MAS TARDE");
     }
   });
 
-
-  
-
   botonBuscar.on("click", function () {
     if (movimientoOBusqueda) {
       if (inputCiudad.val() != "") {
-        consultaActual();
-        cajaActual.show();
-        $("#prevision").show();
+        busquedaPorCiudad();
+        contenedorTiempoActual.show();
+        contenedorBtnPrevision.show();
       } else {
         alert("RELLENA LA CIUDAD ANTES DE HACER UNA BUSQUEDA");
       }
@@ -71,13 +103,18 @@ jQuery(document).ready(function () {
       contenedorBuscar.removeClass("col-lg-6");
       contenedorGps.addClass("col-lg-2");
       contenedorBuscar.addClass("col-lg-2");
-      cajaInputCiudad.show();
-      cajaBtnClose.show();
+      contenedorInputCiudad.show();
+      contenedorBtnClose.show();
+      contenedorPrevision.hide();
+
 
       movimientoOBusqueda = true;
     }
   });
 
+
+
+  //FUNCIONES AÑADIR DATOS
   function anadirDatosActualesAWeb(datos) {
     $("#loadingGif1").hide();
     $("#tituloActual").empty();
@@ -96,6 +133,37 @@ jQuery(document).ready(function () {
 
     $("#temperaturaActual").empty();
     $("#temperaturaActual").append($("<h4>" + temperatura + "°C</h4>"));
+  }
+
+  //PETICIONES 
+
+  function prevision(){
+    var url2 =
+      "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&appid=" +
+      API_KEY+"&units=metric";
+
+    $.ajax({
+      // la URL para la petición
+      url: url2,
+
+      type: "GET",
+      // el tipo de información que se espera de respuesta
+      dataType: "json",
+      // código a ejecutar si la petición es satisfactoria;
+      // la respuesta es pasada como argumento a la función
+      success: function (json3) {
+        console.log(json3);
+      },
+
+      // código a ejecutar si la petición falla;
+      error: function (xhr, status) {
+        alert("Disculpe, existió un problema");
+      },
+    });
   }
 
   function busquedaPorCoordenadas() {
@@ -117,8 +185,6 @@ jQuery(document).ready(function () {
       // código a ejecutar si la petición es satisfactoria;
       // la respuesta es pasada como argumento a la función
       success: function (json2) {
-        console.log(json2);
-        console.log(json2.name);
         datosTiempoActual["nombre"] = json2.name;
         datosTiempoActual["icon"] = json2.weather[0].icon;
         datosTiempoActual["tiempo"] = json2.main.temp;
@@ -133,7 +199,7 @@ jQuery(document).ready(function () {
     });
   }
 
-  function consultaActual() {
+  function busquedaPorCiudad() {
     var url1 =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       inputCiudad.val() +
@@ -151,6 +217,8 @@ jQuery(document).ready(function () {
       // la respuesta es pasada como argumento a la función
       success: function (json) {
         console.log(json);
+        lat=json.coord["lat"];
+        lon=json.coord["lon"];
         datosTiempoActual["nombre"] = json.name;
         datosTiempoActual["icon"] = json.weather[0].icon;
         datosTiempoActual["tiempo"] = json.main.temp;
