@@ -10,7 +10,7 @@ jQuery(document).ready(function () {
   var cajaActual = $("#actual");
   const API_KEY = "32703d44a00c89012175a9bb40b70da7";
   var datosTiempoActual = {};
-
+  $("#prevision").hide();
   var movimientoOBusqueda = false;
   cajaInputCiudad.hide();
   cajaBtnClose.hide();
@@ -28,6 +28,8 @@ jQuery(document).ready(function () {
     cajaInputCiudad.hide();
     movimientoOBusqueda = false;
     cajaActual.hide();
+    $("#prevision").hide();
+
   });
 
   $("#btnGps").on("click", function () {
@@ -38,6 +40,8 @@ jQuery(document).ready(function () {
         lon = position.coords.longitude;
         busquedaPorCoordenadas();
         cajaActual.show();
+        $("#prevision").show();
+
         contenedorGps.removeClass("col-lg-6");
         contenedorBuscar.removeClass("col-lg-6");
         contenedorGps.addClass("col-lg-2");
@@ -58,6 +62,7 @@ jQuery(document).ready(function () {
       if (inputCiudad.val() != "") {
         consultaActual();
         cajaActual.show();
+        $("#prevision").show();
       } else {
         alert("RELLENA LA CIUDAD ANTES DE HACER UNA BUSQUEDA");
       }
@@ -112,6 +117,8 @@ jQuery(document).ready(function () {
       // código a ejecutar si la petición es satisfactoria;
       // la respuesta es pasada como argumento a la función
       success: function (json2) {
+        console.log(json2);
+        console.log(json2.name);
         datosTiempoActual["nombre"] = json2.name;
         datosTiempoActual["icon"] = json2.weather[0].icon;
         datosTiempoActual["tiempo"] = json2.main.temp;
@@ -128,10 +135,10 @@ jQuery(document).ready(function () {
 
   function consultaActual() {
     var url1 =
-      "https://api.openweathermap.org/geo/1.0/direct?q=" +
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
       inputCiudad.val() +
       "&limit=1&appid=" +
-      API_KEY;
+      API_KEY+"&units=metric";
 
     $.ajax({
       // la URL para la petición
@@ -143,16 +150,12 @@ jQuery(document).ready(function () {
       // código a ejecutar si la petición es satisfactoria;
       // la respuesta es pasada como argumento a la función
       success: function (json) {
-        if (json.length == 0) {
-          cajaActual.hide();
-          alert("No se ha encontrado la ciudad " + inputCiudad.val());
-        } else {
-          json.forEach((ciudad) => {
-            lat = ciudad["lat"];
-            lon = ciudad["lon"];
-            busquedaPorCoordenadas();
-          });
-        }
+        console.log(json);
+        datosTiempoActual["nombre"] = json.name;
+        datosTiempoActual["icon"] = json.weather[0].icon;
+        datosTiempoActual["tiempo"] = json.main.temp;
+        anadirDatosActualesAWeb(datosTiempoActual);
+        
       },
       // código a ejecutar si la petición falla;
       error: function (xhr, status) {
