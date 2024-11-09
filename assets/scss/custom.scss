@@ -3,9 +3,9 @@
 // Include any default variable overrides here (though functions won't be available)
 
 //COLORS
-$primary: #84d2d6;
+$primary: #b3e5f5;
 //MARGINS
-$spacer: 2rem;
+$spacer: 3rem;
 
 @import "../bootstrap/scss/bootstrap.scss";
 
@@ -21,3 +21,4 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+

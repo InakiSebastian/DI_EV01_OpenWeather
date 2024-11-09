@@ -41,6 +41,8 @@ jQuery(document).ready(function () {
     contenedorPrevision.show();
     contenedorBtnPrevision.hide();
     contenedorTiempoActual.hide();
+    $("#contenedorTitulo").removeClass("mt-5");
+    $("#contenedorTitulo").addClass("mt-0");
     prevision();
   });
 
@@ -56,6 +58,11 @@ jQuery(document).ready(function () {
     contenedorTiempoActual.hide();
     contenedorBtnPrevision.hide();
     contenedorPrevision.hide();
+    if ($("#contenedorTitulo").hasClass("mt-0")) {
+      $("#contenedorTitulo").removeClass("mt-0");
+    $("#contenedorTitulo").addClass("mt-5");
+    }
+    
   });
 
   botonGps.on("click", function () {
@@ -75,6 +82,10 @@ jQuery(document).ready(function () {
         contenedorInputCiudad.show();
         contenedorBtnClose.show();
         contenedorPrevision.hide();
+        if ($("#contenedorTitulo").hasClass("mt-0")) {
+          $("#contenedorTitulo").removeClass("mt-0");
+        $("#contenedorTitulo").addClass("mt-5");
+        }
       });
     } else {
       alert("HAY PROBLEMAS CON LA GEOLOCALIZACIÓN. INTENTALO MAS TARDE");
@@ -85,8 +96,13 @@ jQuery(document).ready(function () {
     if (movimientoOBusqueda) {
       if (inputCiudad.val() != "") {
         busquedaPorCiudad();
+        contenedorPrevision.hide();
         contenedorTiempoActual.show();
         contenedorBtnPrevision.show();
+        if ($("#contenedorTitulo").hasClass("mt-0")) {
+          $("#contenedorTitulo").removeClass("mt-0");
+        $("#contenedorTitulo").addClass("mt-5");
+        }
       } else {
         alert("RELLENA LA CIUDAD ANTES DE HACER UNA BUSQUEDA");
       }
@@ -102,6 +118,8 @@ jQuery(document).ready(function () {
       movimientoOBusqueda = true;
     }
   });
+
+  
 
   //FUNCIONES AÑADIR DATOS
   function anadirDatosActualesAWeb(datos) {
@@ -156,7 +174,7 @@ jQuery(document).ready(function () {
     var iconoUrl =
       "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
 
-      $("#bodyCarta1").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+      $("#bodyCarta1").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="" style="height:50px;width:50px;" src="' + iconoUrl + '"></img></p>'));
 
 
   });
@@ -167,7 +185,7 @@ jQuery(document).ready(function () {
   dia2.forEach(franja => {
     var iconoUrl =
     "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
-    $("#bodyCarta2").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+    $("#bodyCarta2").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" style="height:50px;width:50px;" src="' + iconoUrl + '"></img></p>'));
 
   });
 
@@ -177,7 +195,7 @@ jQuery(document).ready(function () {
   dia3.forEach(franja => {
     var iconoUrl =
     "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
-    $("#bodyCarta3").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+    $("#bodyCarta3").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" style="height:50px;width:50px;" src="' + iconoUrl + '"></img></p>'));
 
   });
 
@@ -188,7 +206,7 @@ jQuery(document).ready(function () {
     var iconoUrl =
     "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
 
-    $("#bodyCarta4").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+    $("#bodyCarta4").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" style="height:50px;width:50px;" src="' + iconoUrl + '"></img></p>'));
 
   });
 
