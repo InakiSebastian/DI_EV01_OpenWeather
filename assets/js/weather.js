@@ -165,7 +165,6 @@ jQuery(document).ready(function () {
   );
 
 
-  console.log(dia1);
   var dias = ["DOMINGO","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO"];
   $("#tituloDia1").text(dias[dia1[0]["fecha"].getDay()]);
   $("#bodyCarta1").find("p").remove();
@@ -319,7 +318,15 @@ jQuery(document).ready(function () {
       },
       // código a ejecutar si la petición falla;
       error: function (xhr, status) {
-        alert("Disculpe, existió un problema");
+        if (xhr.status === 404) {
+          alert("Ciudad no encontrada. Verifique el nombre de la ciudad.");
+        } else {
+          alert("Disculpe, existió un problema.");
+        }
+
+        $("#loadingGif1").hide();
+        contenedorBtnPrevision.hide();
+        contenedorTiempoActual.hide();
       },
     });
   }
