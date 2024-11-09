@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Esta es una aplicación web que proporciona información meteorológica actual y predicciones para los próximos 4 días, utilizando la API de OpenWeather.
+Esta es una aplicación web que proporciona información meteorológica actual y predicciones para los próximos 4 días, utilizando la API de OpenWeather.  [LINK A LA WEB](https://inakisebastian.github.io/DI_EV01_OpenWeather/)	
 
 ### Funciones:
 - Obtener el tiempo actual basado en la localización actual.
