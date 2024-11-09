@@ -7,9 +7,8 @@ jQuery(document).ready(function () {
   var contenedorTiempoActual = $("#actual");
   var contenedorBtnPrevision = $("#cajaBtnPrevision");
   var contenedorPrevision = $("#cajaPrevision");
-  
-  //CONTENIDO
 
+  //CONTENIDO
 
   //BOTONES
   var botonGps = $("#btnGps");
@@ -20,16 +19,14 @@ jQuery(document).ready(function () {
   //INPUT
   var inputCiudad = $("#inputCiudad");
 
-
   //CONSTANTES
   const API_KEY = "32703d44a00c89012175a9bb40b70da7";
 
-
   //VARIABLES
-  var datosTiempoActual = {};
   var movimientoOBusqueda = false;
   var lat;
   var lon;
+  var datosTiempoActual = {};
 
   //OCULTAR ELEMENTOS AL INICIAR WEB
   contenedorPrevision.hide();
@@ -37,7 +34,7 @@ jQuery(document).ready(function () {
   contenedorInputCiudad.hide();
   contenedorBtnClose.hide();
   contenedorTiempoActual.hide();
-  
+
   //FUNCIONES ON CLICK
 
   botonPrevision.on("click", function () {
@@ -46,8 +43,6 @@ jQuery(document).ready(function () {
     contenedorTiempoActual.hide();
     prevision();
   });
-
-
 
   botonCerrar.on("click", function () {
     inputCiudad.val("");
@@ -61,8 +56,6 @@ jQuery(document).ready(function () {
     contenedorTiempoActual.hide();
     contenedorBtnPrevision.hide();
     contenedorPrevision.hide();
-
-
   });
 
   botonGps.on("click", function () {
@@ -82,7 +75,6 @@ jQuery(document).ready(function () {
         contenedorInputCiudad.show();
         contenedorBtnClose.show();
         contenedorPrevision.hide();
-
       });
     } else {
       alert("HAY PROBLEMAS CON LA GEOLOCALIZACIÓN. INTENTALO MAS TARDE");
@@ -107,12 +99,9 @@ jQuery(document).ready(function () {
       contenedorBtnClose.show();
       contenedorPrevision.hide();
 
-
       movimientoOBusqueda = true;
     }
   });
-
-
 
   //FUNCIONES AÑADIR DATOS
   function anadirDatosActualesAWeb(datos) {
@@ -135,16 +124,89 @@ jQuery(document).ready(function () {
     $("#temperaturaActual").append($("<h4>" + temperatura + "°C</h4>"));
   }
 
-  //PETICIONES 
+  function anadirPrevision(datos){
+    var hoy = new Date();
+    var dia1 = [];
+    var dia2 = [];
+    var dia3 = [];
+    var dia4 = [];
+    datos.forEach(tiempo => {
+      if (tiempo["fecha"].getDate() == hoy.getDate()+1){
+        dia1.push(tiempo);
+      }else if (tiempo["fecha"].getDate() == hoy.getDate()+2){
+        dia2.push(tiempo);
 
-  function prevision(){
+      }else if (tiempo["fecha"].getDate() == hoy.getDate()+3){
+        dia3.push(tiempo);
+
+      }else if (tiempo["fecha"].getDate() == hoy.getDate()+4){
+        dia4.push(tiempo);
+
+      }
+    }
+  );
+
+
+  console.log(dia1);
+  var dias = ["DOMINGO","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO"];
+  $("#tituloDia1").text(dias[dia1[0]["fecha"].getDay()]);
+  $("#bodyCarta1").find("p").remove();
+
+  dia1.forEach(franja => {
+    var iconoUrl =
+      "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
+
+      $("#bodyCarta1").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+
+
+  });
+
+  $("#tituloDia2").text(dias[dia2[0]["fecha"].getDay()]);
+  $("#bodyCarta2").find("p").remove();
+
+  dia2.forEach(franja => {
+    var iconoUrl =
+    "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
+    $("#bodyCarta2").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+
+  });
+
+  $("#tituloDia3").text(dias[dia3[0]["fecha"].getDay()]);
+  $("#bodyCarta3").find("p").remove();
+
+  dia3.forEach(franja => {
+    var iconoUrl =
+    "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
+    $("#bodyCarta3").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+
+  });
+
+  $("#tituloDia4").text(dias[dia4[0]["fecha"].getDay()]);
+  $("#bodyCarta4").find("p").remove();
+
+  dia4.forEach(franja => {
+    var iconoUrl =
+    "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
+
+    $("#bodyCarta4").append($('<p>'+franja["fecha"].getHours()+':'+String(franja["fecha"].getMinutes()).padStart(2, '0')+' '+Math.round(franja["temperatura"])+'ºC<img class="img-fluid" src="' + iconoUrl + '"></img></p>'));
+
+  });
+
+
+
+  }
+
+  //PETICIONES
+
+  function prevision() {
     var url2 =
       "https://api.openweathermap.org/data/2.5/forecast?lat=" +
       lat +
       "&lon=" +
       lon +
       "&appid=" +
-      API_KEY+"&units=metric";
+      API_KEY +
+      "&units=metric";
 
     $.ajax({
       // la URL para la petición
@@ -156,7 +218,19 @@ jQuery(document).ready(function () {
       // código a ejecutar si la petición es satisfactoria;
       // la respuesta es pasada como argumento a la función
       success: function (json3) {
-        console.log(json3);
+        var datosPrevision = [];
+
+        json3.list.forEach((tiempo) => {
+          var fecha = new Date(tiempo.dt * 1000);
+          var datos = {
+            fecha: fecha,
+            temperatura: tiempo.main.temp,
+            icono: tiempo.weather[0].icon,
+          };
+          datosPrevision.push(datos);
+
+        });
+        anadirPrevision(datosPrevision);
       },
 
       // código a ejecutar si la petición falla;
@@ -173,7 +247,8 @@ jQuery(document).ready(function () {
       "&lon=" +
       lon +
       "&appid=" +
-      API_KEY+"&units=metric";
+      API_KEY +
+      "&units=metric";
 
     $.ajax({
       // la URL para la petición
@@ -204,7 +279,8 @@ jQuery(document).ready(function () {
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       inputCiudad.val() +
       "&limit=1&appid=" +
-      API_KEY+"&units=metric";
+      API_KEY +
+      "&units=metric";
 
     $.ajax({
       // la URL para la petición
@@ -216,14 +292,12 @@ jQuery(document).ready(function () {
       // código a ejecutar si la petición es satisfactoria;
       // la respuesta es pasada como argumento a la función
       success: function (json) {
-        console.log(json);
-        lat=json.coord["lat"];
-        lon=json.coord["lon"];
+        lat = json.coord["lat"];
+        lon = json.coord["lon"];
         datosTiempoActual["nombre"] = json.name;
         datosTiempoActual["icon"] = json.weather[0].icon;
         datosTiempoActual["tiempo"] = json.main.temp;
         anadirDatosActualesAWeb(datosTiempoActual);
-        
       },
       // código a ejecutar si la petición falla;
       error: function (xhr, status) {
