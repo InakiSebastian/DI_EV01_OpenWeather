@@ -66,29 +66,35 @@ jQuery(document).ready(function () {
   });
 
   botonGps.on("click", function () {
-    inputCiudad.val("");
+    inputCiudad.val(""); 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        lat = position.coords.latitude;
-        lon = position.coords.longitude;
-        busquedaPorCoordenadas();
-        contenedorTiempoActual.show();
-        contenedorBtnPrevision.show();
-
-        contenedorGps.removeClass("col-lg-6");
-        contenedorBuscar.removeClass("col-lg-6");
-        contenedorGps.addClass("col-lg-2");
-        contenedorBuscar.addClass("col-lg-2");
-        contenedorInputCiudad.show();
-        contenedorBtnClose.show();
-        contenedorPrevision.hide();
-        if ($("#contenedorTitulo").hasClass("mt-0")) {
-          $("#contenedorTitulo").removeClass("mt-0");
-        $("#contenedorTitulo").addClass("mt-5");
+      navigator.geolocation.getCurrentPosition(
+        function (position) {  
+          lat = position.coords.latitude;
+          lon = position.coords.longitude;
+          busquedaPorCoordenadas();
+          contenedorTiempoActual.show();
+          contenedorBtnPrevision.show();
+  
+          contenedorGps.removeClass("col-lg-6");
+          contenedorBuscar.removeClass("col-lg-6");
+          contenedorGps.addClass("col-lg-2");
+          contenedorBuscar.addClass("col-lg-2");
+          contenedorInputCiudad.show();
+          contenedorBtnClose.show();
+          contenedorPrevision.hide();
+          if ($("#contenedorTitulo").hasClass("mt-0")) {
+            $("#contenedorTitulo").removeClass("mt-0");
+            $("#contenedorTitulo").addClass("mt-5");
+          }
+        },
+        function (error) {
+          alert("Permiso de geolocalización rechazada");
+       
         }
-      });
+      );
     } else {
-      alert("HAY PROBLEMAS CON LA GEOLOCALIZACIÓN. INTENTALO MAS TARDE");
+      alert("La geolocalización no está soportada en este navegador.");
     }
   });
 
