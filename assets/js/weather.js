@@ -59,7 +59,6 @@ jQuery(document).ready(function () {
     contenedorBtnPrevision.hide();
     contenedorPrevision.hide();
 
-    // mt-md-5 - mt-1
 
     if ($("#contenedorTitulo").hasClass("mt-md-5")) {
       $("#contenedorTitulo").removeClass("mt-1");
