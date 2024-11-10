@@ -42,7 +42,6 @@ jQuery(document).ready(function () {
     $("#contenedorTitulo").removeClass("mt-1");
     $("#contenedorTitulo").removeClass("mt-md-5");
     $("#contenedorTitulo").addClass("mt-0");
-    //CORREGIR MARGENES
     prevision();
   });
 
@@ -70,6 +69,7 @@ jQuery(document).ready(function () {
       $("#contenedorTitulo").removeClass("mt-0");
       $("#contenedorTitulo").addClass("mt-5");
     }
+
   });
 
   botonGps.on("click", function () {
@@ -77,6 +77,8 @@ jQuery(document).ready(function () {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         function (position) {
+          $("#loadingGif1").show();
+
           lat = position.coords.latitude;
           lon = position.coords.longitude;
           busquedaPorCoordenadas();
@@ -102,6 +104,8 @@ jQuery(document).ready(function () {
             $("#contenedorTitulo").addClass("mt-1");
             $("#contenedorTitulo").addClass("mt-md-5");
           }
+          movimientoOBusqueda = true;
+
         },
         function (error) {
           alert("Permiso de geolocalización rechazada");
@@ -115,10 +119,10 @@ jQuery(document).ready(function () {
   botonBuscar.on("click", function () {
     if (movimientoOBusqueda) {
       if (inputCiudad.val() != "") {
+        $("#loadingGif1").show();
+
         busquedaPorCiudad();
-        contenedorPrevision.hide();
-        contenedorTiempoActual.show();
-        contenedorBtnPrevision.show();
+
 
         if ($("#contenedorTitulo").hasClass("mt-5")) {
           $("#contenedorTitulo").removeClass("mt-5");
@@ -126,11 +130,7 @@ jQuery(document).ready(function () {
           $("#contenedorTitulo").addClass("mt-md-5");
         }
 
-        if ($("#contenedorTitulo").hasClass("mt-0")) {
-          $("#contenedorTitulo").removeClass("mt-0");
-          $("#contenedorTitulo").addClass("mt-1");
-          $("#contenedorTitulo").addClass("mt-md-5");
-        }
+       
       } else {
         alert("RELLENA LA CIUDAD ANTES DE HACER UNA BUSQUEDA");
       }
@@ -382,6 +382,14 @@ jQuery(document).ready(function () {
         datosTiempoActual["nombre"] = json.name;
         datosTiempoActual["icon"] = json.weather[0].icon;
         datosTiempoActual["tiempo"] = json.main.temp;
+        contenedorPrevision.hide();
+        contenedorTiempoActual.show();
+        contenedorBtnPrevision.show();
+        if ($("#contenedorTitulo").hasClass("mt-0")) {
+          $("#contenedorTitulo").removeClass("mt-0");
+          $("#contenedorTitulo").addClass("mt-1");
+          $("#contenedorTitulo").addClass("mt-md-5");
+        }
         anadirDatosActualesAWeb(datosTiempoActual);
       },
       // código a ejecutar si la petición falla;

@@ -1,16 +1,20 @@
-// Custom.scss
-// Option A: Include all of Bootstrap
-// Include any default variable overrides here (though functions won't be available)
 
 //COLORS
 $primary: #b3e5f5;
-
+$btn-hover-bg-shade-amount:       50%;
+$btn-hover-bg-tint-amount:        50%;
+$btn-hover-border-shade-amount:   50%;
+$btn-hover-border-tint-amount:    50%;
+$btn-active-bg-shade-amount:      50%;
+$btn-active-bg-tint-amount:       50%;
+$btn-active-border-shade-amount:  50%;
+$btn-active-border-tint-amount:   50%;
 //MARGINS
 $spacer: 3rem;
 
 @import "../bootstrap/scss/bootstrap.scss";
 
-// Then add additional custom code here
+//
 
 body {
   background: linear-gradient(
