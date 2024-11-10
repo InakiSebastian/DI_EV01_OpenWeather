@@ -7,6 +7,7 @@ jQuery(document).ready(function () {
   var contenedorTiempoActual = $("#actual");
   var contenedorBtnPrevision = $("#cajaBtnPrevision");
   var contenedorPrevision = $("#cajaPrevision");
+  var contenedorTitulo = $("#contenedorTitulo");
 
   //BOTONES
   var botonGps = $("#btnGps");
@@ -39,9 +40,9 @@ jQuery(document).ready(function () {
     contenedorPrevision.show();
     contenedorBtnPrevision.hide();
     contenedorTiempoActual.hide();
-    $("#contenedorTitulo").removeClass("mt-1");
-    $("#contenedorTitulo").removeClass("mt-md-5");
-    $("#contenedorTitulo").addClass("mt-0");
+    contenedorTitulo.removeClass("mt-1");
+    contenedorTitulo.removeClass("mt-md-5");
+    contenedorTitulo.addClass("mt-0");
     prevision();
   });
 
@@ -59,15 +60,15 @@ jQuery(document).ready(function () {
     contenedorPrevision.hide();
 
 
-    if ($("#contenedorTitulo").hasClass("mt-md-5")) {
-      $("#contenedorTitulo").removeClass("mt-1");
-      $("#contenedorTitulo").removeClass("mt-md-5");
-      $("#contenedorTitulo").addClass("mt-5");
+    if (contenedorTitulo.hasClass("mt-md-5")) {
+      contenedorTitulo.removeClass("mt-1");
+      contenedorTitulo.removeClass("mt-md-5");
+      contenedorTitulo.addClass("mt-5");
     }
 
-    if ($("#contenedorTitulo").hasClass("mt-0")) {
-      $("#contenedorTitulo").removeClass("mt-0");
-      $("#contenedorTitulo").addClass("mt-5");
+    if (contenedorTitulo.hasClass("mt-0")) {
+      contenedorTitulo.removeClass("mt-0");
+      contenedorTitulo.addClass("mt-5");
     }
 
   });
@@ -93,16 +94,16 @@ jQuery(document).ready(function () {
           contenedorBtnClose.show();
           contenedorPrevision.hide();
 
-          if ($("#contenedorTitulo").hasClass("mt-5")) {
-            $("#contenedorTitulo").removeClass("mt-5");
-            $("#contenedorTitulo").addClass("mt-1");
-            $("#contenedorTitulo").addClass("mt-md-5");
+          if (contenedorTitulo.hasClass("mt-5")) {
+            contenedorTitulo.removeClass("mt-5");
+            contenedorTitulo.addClass("mt-1");
+            contenedorTitulo.addClass("mt-md-5");
           }
 
-          if ($("#contenedorTitulo").hasClass("mt-0")) {
-            $("#contenedorTitulo").removeClass("mt-0");
-            $("#contenedorTitulo").addClass("mt-1");
-            $("#contenedorTitulo").addClass("mt-md-5");
+          if (contenedorTitulo.hasClass("mt-0")) {
+            contenedorTitulo.removeClass("mt-0");
+            contenedorTitulo.addClass("mt-1");
+            contenedorTitulo.addClass("mt-md-5");
           }
           movimientoOBusqueda = true;
 
@@ -124,10 +125,10 @@ jQuery(document).ready(function () {
         busquedaPorCiudad();
 
 
-        if ($("#contenedorTitulo").hasClass("mt-5")) {
-          $("#contenedorTitulo").removeClass("mt-5");
-          $("#contenedorTitulo").addClass("mt-1");
-          $("#contenedorTitulo").addClass("mt-md-5");
+        if (contenedorTitulo.hasClass("mt-5")) {
+          contenedorTitulo.removeClass("mt-5");
+          contenedorTitulo.addClass("mt-1");
+          contenedorTitulo.addClass("mt-md-5");
         }
 
        
@@ -170,22 +171,28 @@ jQuery(document).ready(function () {
 
   function anadirPrevision(datos) {
     var hoy = new Date();
-    var dia1 = [];
-    var dia2 = [];
-    var dia3 = [];
-    var dia4 = [];
+    var diasPrevision = [[],[],[],[]];
+
     datos.forEach((tiempo) => {
       if (tiempo["fecha"].getDate() == hoy.getDate() + 1) {
-        dia1.push(tiempo);
+        diasPrevision[0].push(tiempo);
       } else if (tiempo["fecha"].getDate() == hoy.getDate() + 2) {
-        dia2.push(tiempo);
+        diasPrevision[1].push(tiempo);
       } else if (tiempo["fecha"].getDate() == hoy.getDate() + 3) {
-        dia3.push(tiempo);
+        diasPrevision[2].push(tiempo);
       } else if (tiempo["fecha"].getDate() == hoy.getDate() + 4) {
-        dia4.push(tiempo);
+        diasPrevision[3].push(tiempo);
       }
     });
 
+    imprimirPrevision(diasPrevision[0],"tituloDia1","bodyCarta1");
+    imprimirPrevision(diasPrevision[1],"tituloDia2","bodyCarta2");
+    imprimirPrevision(diasPrevision[2],"tituloDia3","bodyCarta3");
+    imprimirPrevision(diasPrevision[3],"tituloDia4","bodyCarta4");
+  
+  }
+
+  function imprimirPrevision(diaPrevision,idTitulo,idBody){
     var dias = [
       "DOMINGO",
       "LUNES",
@@ -195,35 +202,14 @@ jQuery(document).ready(function () {
       "VIERNES",
       "SABADO",
     ];
-    $("#tituloDia1").text(dias[dia1[0]["fecha"].getDay()]);
-    $("#bodyCarta1").find("p").remove();
+    $("#" + idTitulo).text(dias[diaPrevision[0]["fecha"].getDay()]);
+    $("#" + idBody).find("p").remove();
 
-    dia1.forEach((franja) => {
+    diaPrevision.forEach((franja) => {
       var iconoUrl =
         "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
 
-      $("#bodyCarta1").append(
-        $(
-          "<p>" +
-            franja["fecha"].getHours() +
-            ":" +
-            String(franja["fecha"].getMinutes()).padStart(2, "0") +
-            " " +
-            Math.round(franja["temperatura"]) +
-            'ºC<img class="" style="height:50px;width:50px;" src="' +
-            iconoUrl +
-            '"></img></p>'
-        )
-      );
-    });
-
-    $("#tituloDia2").text(dias[dia2[0]["fecha"].getDay()]);
-    $("#bodyCarta2").find("p").remove();
-
-    dia2.forEach((franja) => {
-      var iconoUrl =
-        "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
-      $("#bodyCarta2").append(
+      $("#" + idBody).append(
         $(
           "<p>" +
             franja["fecha"].getHours() +
@@ -238,48 +224,6 @@ jQuery(document).ready(function () {
       );
     });
 
-    $("#tituloDia3").text(dias[dia3[0]["fecha"].getDay()]);
-    $("#bodyCarta3").find("p").remove();
-
-    dia3.forEach((franja) => {
-      var iconoUrl =
-        "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
-      $("#bodyCarta3").append(
-        $(
-          "<p>" +
-            franja["fecha"].getHours() +
-            ":" +
-            String(franja["fecha"].getMinutes()).padStart(2, "0") +
-            " " +
-            Math.round(franja["temperatura"]) +
-            'ºC<img class="img-fluid" style="height:50px;width:50px;" src="' +
-            iconoUrl +
-            '"></img></p>'
-        )
-      );
-    });
-
-    $("#tituloDia4").text(dias[dia4[0]["fecha"].getDay()]);
-    $("#bodyCarta4").find("p").remove();
-
-    dia4.forEach((franja) => {
-      var iconoUrl =
-        "https://openweathermap.org/img/wn/" + franja["icono"] + "@2x.png";
-
-      $("#bodyCarta4").append(
-        $(
-          "<p>" +
-            franja["fecha"].getHours() +
-            ":" +
-            String(franja["fecha"].getMinutes()).padStart(2, "0") +
-            " " +
-            Math.round(franja["temperatura"]) +
-            'ºC<img class="img-fluid" style="height:50px;width:50px;" src="' +
-            iconoUrl +
-            '"></img></p>'
-        )
-      );
-    });
   }
 
   //PETICIONES
